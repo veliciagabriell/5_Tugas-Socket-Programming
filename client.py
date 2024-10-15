@@ -3,7 +3,7 @@ import threading
 import random
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-client.bind(("localhost", random.randint(8000, 9000))) 
+client.bind('10.5.102.193', 8080) 
 
 name = input ("Nickname: ")
 
@@ -27,4 +27,3 @@ while True :
         exit()
     else :
         client.sendto(f"{name}: {message}".encode(), ("localhost", 9999) )
-    

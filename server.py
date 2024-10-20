@@ -47,7 +47,7 @@ def broadcast():
                             server.sendto(full_message.encode('utf-8'), client)
                         except Exception as e:
                             print(f"Error sending to {client}: {e}")
-                            del clients[client]  # Remove disconnected clients
+                           
             except UnicodeDecodeError:
                 print("Failed to decode message, skipping...")
 

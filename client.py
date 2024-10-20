@@ -22,23 +22,9 @@ def receive():
     while True:
         try:
             message, _ = client.recvfrom(1024)
-            print(f"{message.decode('utf-8')}")
+            print(message.decode('utf-8'))
         except :
             break
-
-            # #memisahkan nomor urut (seq number) dari pesan utama
-            # #TCP over UDP melihat urutan
-            # seq_num, msg = decoded_message.split(' ', 1)
-            # seq_num = int(seq_num)
-
-            # #send ACK ke sender
-            # ack_message = f"ACK {seq_num}"
-            # client.sendto(ack_message.encode('utf-8'),_)
-
-            # # If the message is not a duplicate, display it
-            # if seq_num not in ack_received:
-            #     chat_listbox.insert(tk.END, msg)
-            #     ack_received[seq_num] = True
 
 
 # Memulai thread untuk menerima pesan dari server
@@ -52,24 +38,6 @@ try:
     print(f"{signup_message}")  # Debug log
 except Exception as e:
     print(f"Error sending signup message: {e}")
-
-# def send (sock, ipaddr, port, msg_entry, username, seq_num):
-#     msg = f" {seq_num} {username}: {msg_entry.get()}"
-
-#     sock.sendto(message.encode('utf-8'), (ipaddr, port))
-
-#     while True:
-#         try:
-#             ack, _ = sock.recvform(1024)
-#             ack_message = ack.decode('utf-8')
-#             ack_num = int(ack_message.split(' '[1]))
-
-#             if ack_num==seq_num:
-#                 print(f"ACK {ack_num} received")
-#                 break
-#         except:
-#             print("Resending message...")
-#             sock.sendto(message.encode('utf-8')), (ipaddr,port)
 
 
 

@@ -6,7 +6,7 @@ messages = queue.Queue()
 clients = []
 
 server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server.bind(("localhost", 8081))
+server.bind(("192.168.0.135", 8081))
 
 def receive():
     while True:

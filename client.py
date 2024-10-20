@@ -1,15 +1,44 @@
+# import socket
+# import threading
+
+# client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+# hostname = socket.gethostname()
+# IP = socket.gethostbyname(hostname) 
+# ipaddr = input("IP Address: ")
+# port = input("Port: ")
+# name = input ("Nickname: ")
+# print(IP)
+
+# def receive():
+#     while True:
+#         try :
+#             message, _ = client.recvfrom(1024)
+#             print(message.decode())
+#         except:
+#             pass
+
+# t = threading.Thread(target=receive)
+# t.start()
+
+# client.sendto(f"SIGNUP_TAG:{name}".encode(), ("0.0.0.0", 8081))
+
+# while True :
+#     message = input("")
+#     if message == "!q":
+#         exit()
+#     else :
+#         client.sendto(f"{name}: {message}".encode(), ("0.0.0.0", 8081) )
+
 import socket
 import threading
+# import tkinter as tk
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Ambil IP address dan port dari input pengguna
-try:
-    ipaddr = input("IP Address: ")
-    port = int(input("Port: "))  # Konversi ke integer
-except ValueError:
-    print("Invalid input! Port must be a number.")
-    exit(1)  # Keluar dengan kode error
+ipaddr = input("IP Address: ")
+port = int(input("Port: "))  # Convert port to int
 
 pw = input("Insert password: ") #masukkan password
 
@@ -20,21 +49,27 @@ while (pw != "roomchat"):
 name = input("Nickname: ")
 
 ack_receive = {}
-def receive(sock, chat_listbox):
+def receive():
     global ack_received
     while True:
         try:
             message, _ = client.recvfrom(1024)
-            decoded_message = (message.decode())
+            print (message.decode())
 
-            #memisahkan nomor urut (seq number) dari pesan utama
-            #TCP over UDP melihat urutan
-            seq_num, msg = decoded_message.split(' ', 1)
-            seq_num = int(seq_num)
+            # #memisahkan nomor urut (seq number) dari pesan utama
+            # #TCP over UDP melihat urutan
+            # seq_num, msg = decoded_message.split(' ', 1)
+            # seq_num = int(seq_num)
 
-            #send ACK ke sender
-            ack_message = f"ACK {seq_num}"
-            client.sendto(ack_message.encode('utf-8'),_)
+            # #send ACK ke sender
+            # ack_message = f"ACK {seq_num}"
+            # client.sendto(ack_message.encode('utf-8'),_)
+
+            # # If the message is not a duplicate, display it
+            # if seq_num not in ack_received:
+            #     chat_listbox.insert(tk.END, msg)
+            #     ack_received[seq_num] = True
+
 
         except:
             pass
@@ -43,23 +78,23 @@ def receive(sock, chat_listbox):
 t = threading.Thread(target=receive)
 t.start()
 
-def send (sock, ipaddr, port, msg_entry, username, seq_num):
-    msg = f" {seq_num} {username}: {msg_entry.get()}"
+# def send (sock, ipaddr, port, msg_entry, username, seq_num):
+#     msg = f" {seq_num} {username}: {msg_entry.get()}"
 
-    sock.sendto(message.encode('utf-8', (ipaddr, port)))
+#     sock.sendto(message.encode('utf-8'), (ipaddr, port))
 
-    while True:
-        try:
-            ack, _ = sock.recvform(1024)
-            ack_message = ack.decode('utf-8')
-            ack_num = int(ack_message.split(' '[1]))
+#     while True:
+#         try:
+#             ack, _ = sock.recvform(1024)
+#             ack_message = ack.decode('utf-8')
+#             ack_num = int(ack_message.split(' '[1]))
 
-            if ack_num==seq_num:
-                print(f"ACK {ack_num} received")
-                break
-        except:
-            print("Resending message...")
-            sock.sendto(message.encode('utf-8')), (ipaddr,port)
+#             if ack_num==seq_num:
+#                 print(f"ACK {ack_num} received")
+#                 break
+#         except:
+#             print("Resending message...")
+#             sock.sendto(message.encode('utf-8')), (ipaddr,port)
 
 
 # Mengirimkan pesan signup dengan nama pengguna

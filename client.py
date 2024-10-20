@@ -38,6 +38,14 @@ client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Ambil IP address dan port dari input pengguna
 ipaddr = "localhost"
 port = int(input("Port: "))  # Convert port to int
+
+pw = input("Insert password: ") #masukkan password
+
+
+while (pw != "roomchat"):
+    print("Wrong password")
+    pw = input("Insert password: ")
+
 name = input("Nickname: ")
 
 def receive():

@@ -22,7 +22,7 @@ def receive():
     while True:
         try:
             message, _ = client.recvfrom(1024)
-            print(f"Received: {message.decode('utf-8')}")
+            print(f"{message.decode('utf-8')}")
         except :
             break
 
@@ -45,8 +45,6 @@ def receive():
 t = threading.Thread(target=receive, daemon=True)  # Set daemon=True agar thread mati saat program selesai
 t.start()
 
-# Beri jeda agar thread penerima siap
-time.sleep(1)
 
 try:
     signup_message = f"SIGNUP_TAG: {name}"
@@ -82,9 +80,8 @@ while True:
         print("Exiting chat...")
         break  # Keluar dari loop jika pengguna mengetik !q
     try:
-        full_message = f"{name}: {message}"
+        full_message = message
         client.sendto(full_message.encode('utf-8'), (ipaddr, port))
-        print(f"Sent: {full_message}")  # Debug log
     except Exception as e:
         print(f"Error sending message: {e}")
 

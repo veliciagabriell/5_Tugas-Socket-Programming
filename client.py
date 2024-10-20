@@ -1,43 +1,15 @@
-# import socket
-# import threading
-
-# client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# hostname = socket.gethostname()
-# IP = socket.gethostbyname(hostname) 
-# ipaddr = input("IP Address: ")
-# port = input("Port: ")
-# name = input ("Nickname: ")
-# print(IP)
-
-# def receive():
-#     while True:
-#         try :
-#             message, _ = client.recvfrom(1024)
-#             print(message.decode())
-#         except:
-#             pass
-
-# t = threading.Thread(target=receive)
-# t.start()
-
-# client.sendto(f"SIGNUP_TAG:{name}".encode(), ("0.0.0.0", 8081))
-
-# while True :
-#     message = input("")
-#     if message == "!q":
-#         exit()
-#     else :
-#         client.sendto(f"{name}: {message}".encode(), ("0.0.0.0", 8081) )
-
 import socket
 import threading
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Ambil IP address dan port dari input pengguna
-ipaddr = "localhost"
-port = int(input("Port: "))  # Convert port to int
+try:
+    ipaddr = input("IP Address: ")
+    port = int(input("Port: "))  # Konversi ke integer
+except ValueError:
+    print("Invalid input! Port must be a number.")
+    exit(1)  # Keluar dengan kode error
 
 pw = input("Insert password: ") #masukkan password
 

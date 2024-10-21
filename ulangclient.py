@@ -33,5 +33,5 @@ class ChatClient:
 if __name__ == "__main__":
     host = "10.5.102.117"
     port = 8081
-    client = ChatClient(host, port)
+    client = ChatClient()
     client.start()

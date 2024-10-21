@@ -22,7 +22,6 @@ class ChatServer:
                 print(f"Error receiving message: {e}")
 
     def broadcast(self):
-        """Broadcast messages to all clients."""
         while True:
             while not self.messages.empty():
                 message, addr = self.messages.get()

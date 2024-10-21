@@ -8,7 +8,7 @@ class ChatServer:
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_socket.bind(self.server_address)
         self.messages = queue.Queue()
-        self.clients = []  # List to keep track of connected clients
+        self.clients = []  # List to keep track of connected clients  
         self.username = {}
         print(f"Server is running on {host}:{port}")
 

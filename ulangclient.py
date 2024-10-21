@@ -35,7 +35,7 @@ class ChatNode:
         while True:
             if self.unique_name_confirmed:
                 message = input("You: ")
-                try:
+                try:   
                     full_message = f"{message}"
                     self.socket.sendto(full_message.encode(), self.remote_address)
                 except Exception as e:

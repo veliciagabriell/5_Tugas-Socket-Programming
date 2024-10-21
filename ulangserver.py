@@ -9,20 +9,49 @@ class ChatServer:
         self.server_socket.bind(self.server_address)
         self.messages = queue.Queue()
         self.clients = []  # List to keep track of connected clients
+        self.username = {}
         print(f"Server is running on {host}:{port}")
 
     def receive(self):
-        """Receive messages from clients."""
+        # """Receive messages from clients."""
+        # while True:
+        #     try:
+        #         message, addr = self.server_socket.recvfrom(1024)
+        #         if addr not in self.clients:
+        #             self.clients.append(addr)  # Add the new client to the list
+        #             print(f"New client connected: {addr}")
+
+        #         decoded_message = message.decode()
+        #         print(f"Received message from {addr}: {decoded_message}")
+        #         self.messages.put((message, addr))
+        #     except Exception as e:
+        #         print(f"Error receiving message: {e}")
         while True:
             try:
                 message, addr = self.server_socket.recvfrom(1024)
-                if addr not in self.clients:
-                    self.clients.append(addr)  # Add the new client to the list
-                    print(f"New client connected: {addr}")
-
                 decoded_message = message.decode()
-                print(f"Received message from {addr}: {decoded_message}")
-                self.messages.put((message, addr))
+
+                # Check if the client is new and requesting to set a username
+                if addr not in self.username:
+                    if decoded_message.startswith("USERNAME_CHECK:"):
+                        username = decoded_message.split(":")[1].strip()
+
+                        # Check if the username is unique
+                        if username in self.username.values():
+                            # Notify the client that the username is taken
+                            self.server_socket.sendto("USERNAME_TAKEN".encode(), addr)
+                        else:
+                            # Add the username and notify the client that it's accepted
+                            self.username[addr] = username
+                            self.clients.append(addr)
+                            self.server_socket.sendto("USERNAME_ACCEPTED".encode(), addr)
+                            print(f"New client connected: {addr} with username: {username}")
+                    continue  # Skip further processing until the username is confirmed
+
+                # Normal message handling (after username is set)
+                print(f"Received message from {addr} ({self.username[addr]}): {decoded_message}")
+                self.messages.put((f"{self.username[addr]}: {decoded_message}".encode(), addr))
+
             except Exception as e:
                 print(f"Error receiving message: {e}")
 

@@ -74,9 +74,9 @@ class ChatNode:
                     if self.gui_done:
                         self.text_area.config(state = 'normal')
                         self.text_area.insert('end', message)
-                        self.text_area.yview('end')
+                        self.text_area.yview('end') 
                         self.text_area.config(state='disabled')
-            except ConnectionAbortedError:
+            except ConnectionAbortedError: 
                 break
             except:
                 print("Error")

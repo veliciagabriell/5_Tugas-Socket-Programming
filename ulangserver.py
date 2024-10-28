@@ -199,6 +199,7 @@ class ChatServer:
             try:
                 message, addr = self.server_socket.recvfrom(1024)
                 decoded_message = message.decode()
+                print(f"Received message: {decoded_message} from {addr}")  # Tambahkan ini
 
                 # Handle nickname checks
                 if addr not in self.username:

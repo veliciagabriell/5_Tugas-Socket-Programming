@@ -32,12 +32,12 @@ class ChatNode:
         """Minta pengguna untuk memasukkan IP, port, password, dan nama, dengan opsi mengulangi jika terjadi kesalahan."""
         print("Mengambil detail koneksi..")
         local_ip = simpledialog.askstring("Connection Setup", "Masukan local IP address (default: 0.0.0.0):", parent=self.root) or "0.0.0.0"
-        local_port = simpledialog.askinteger("Connection Setup", "Masukkan local port (leave blank for auto):", parent=self.root) or 0
+        local_port = simpledialog.askinteger("Connection Setup", "Masukkan local port:", parent=self.root) or 0
         remote_ip = simpledialog.askstring("Connection Setup", "Masukkan remote IP address:", parent=self.root)
         remote_port = simpledialog.askinteger("Connection Setup", "Masukkan remote port (default: 8083):", parent=self.root) or 8083
 
         if not remote_ip:
-            messagebox.showerror("Dibutuhkan Remote IP", "Masukkan remotr IP address yang valid.")
+            messagebox.showerror("Dibutuhkan Remote IP", "Masukkan remote IP address yang valid.")
             self.root.quit()
 
         self.local_address = (local_ip, local_port)

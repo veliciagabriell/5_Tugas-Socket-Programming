@@ -94,9 +94,9 @@ class ChatNode:
                 message, address = self.socket.recvfrom(4096)
                 decoded_message = message.decode()
 
-                if decoded_message == "NAMA_SUDAH_DIPAKAI":
+                if decoded_message == "NAMA_SUDAH_TERPAKAI":
                     self.unique_name_confirmed = False
-                    self.message_queue.put("Nama sudah dipakai. Masukkan nama baru")
+                    self.message_queue.put("Nama sudah terpakai. Masukkan nama baru")
                     print("Received 'NAMA_SUDAH_TERPAKAI' dari server. Meminta nama baru.")
                 elif decoded_message == "NAMA_DITERIMA":
                     self.unique_name_confirmed = True

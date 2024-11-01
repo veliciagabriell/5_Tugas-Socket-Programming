@@ -23,7 +23,7 @@ class ChatServer:
                 decoded_message = message.decode()
                 print(f"Menerima pesan: {decoded_message} dari {addr}")
 
-                if addr not in self.username:
+                if addr not in self.username:  
                     if decoded_message.startswith("CEK_NAMA:"):
                         username = decoded_message.split(":")[1].strip()
                         

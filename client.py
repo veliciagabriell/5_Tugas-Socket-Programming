@@ -92,7 +92,7 @@ class ChatNode:
         while True:
             try:
                 message, address = self.socket.recvfrom(4096)
-                decoded_message = message.decode()
+                decoded_message = message.decode()   
 
                 if decoded_message == "NAMA_SUDAH_TERPAKAI":
                     self.unique_name_confirmed = False

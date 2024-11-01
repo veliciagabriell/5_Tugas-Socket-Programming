@@ -27,7 +27,7 @@ class ChatServer:
                     if decoded_message.startswith("CEK_NAMA:"):
                         username = decoded_message.split(":")[1].strip()
                         
-                        if username in self.username.values() and self.username.get(addr) != username:
+                        if username in self.username.values() and self.username.get(addr) != username: 
                             print(f"Nama '{username}' sudah terpakai. Memberi tahu klien {addr}.")
                             self.server_socket.sendto("NAMA_SUDAH_TERPAKAI".encode(), addr)
                         else:

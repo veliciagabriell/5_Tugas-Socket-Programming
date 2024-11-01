@@ -72,7 +72,7 @@ class ChatServer:
         """Start the server threads."""
         receive_thread = threading.Thread(target=self.receive, daemon=True)
         broadcast_thread = threading.Thread(target=self.broadcast, daemon=True)
-        receive_thread.start()
+        receive_thread.start()    
         broadcast_thread.start()
         receive_thread.join()
         broadcast_thread.join()

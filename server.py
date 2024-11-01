@@ -13,37 +13,37 @@ class ChatServer:
         self.messages = queue.Queue()
         self.clients = []
         self.username = {}
-        print(f"Server is running on {host}:{port}")
+        print(f"Server berjalan di {host}:{port}")
 
     def receive(self):
-        """Receive messages from clients and manage usernames."""
+        """Menerima pesan dari klien and mengatur nama."""
         while True:
             try:
                 message, addr = self.server_socket.recvfrom(1024)
                 decoded_message = message.decode()
-                print(f"Received message: {decoded_message} from {addr}")
+                print(f"Menerima pesan: {decoded_message} dari {addr}")
 
                 if addr not in self.username:
-                    if decoded_message.startswith("USERNAME_CHECK:"):
+                    if decoded_message.startswith("CEK_NAMA:"):
                         username = decoded_message.split(":")[1].strip()
                         
                         if username in self.username.values() and self.username.get(addr) != username:
-                            print(f"Username '{username}' is taken. Informing client {addr}.")
-                            self.server_socket.sendto("USERNAME_TAKEN".encode(), addr)
+                            print(f"Nama '{username}' sudah terpakai. Memberi tahu klien {addr}.")
+                            self.server_socket.sendto("NAMA_SUDAH_TERPAKAI".encode(), addr)
                         else:
                             self.username[addr] = username
                             if addr not in self.clients:
                                 self.clients.append(addr)
-                            self.server_socket.sendto("USERNAME_ACCEPTED".encode(), addr)
-                            print(f"Username '{username}' accepted for {addr}")
+                            self.server_socket.sendto("NAMA_DITERIMA".encode(), addr)
+                            print(f"Nama '{username}' diterima dari {addr}")
                     continue
 
                 user_message = f"{self.username[addr]}: {decoded_message}"
                 self.messages.put((user_message.encode(), addr))
-                print(f"Queued message from {self.username[addr]}")
+                print(f"Pesan dari {self.username[addr]} ditambahkan ke antrean")
 
             except Exception as e:
-                print(f"Error receiving message from {addr}: {e}")
+                print(f"Error dari {addr}: {e}")
 
     def broadcast(self):
         """Broadcast messages to all connected clients."""
@@ -56,15 +56,15 @@ class ChatServer:
                     if client != addr:
                         try:
                             self.server_socket.sendto(message, client)
-                            print(f"Broadcasting message to {client}")
+                            print(f"Mengirim pesan ke {client}")
                         except Exception as e:
-                            print(f"Error sending to {client}: {e}")
+                            print(f"Error mengirim pesan ke {client}: {e}")
                             disconnected_clients.append(client)
                 
                 for client in disconnected_clients:
                     self.clients.remove(client)
                     username = self.username.pop(client, "Unknown")
-                    print(f"Removed disconnected client {client} ({username})")
+                    print(f"Klien terputus {client} ({username}) telah dihapus")
                 
                 time.sleep(0.01)
 
